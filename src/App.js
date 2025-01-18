@@ -4,6 +4,7 @@ import Pitch from "./components/Pitch";
 import PitchLion from "./components/PitchLion";
 import PitchOwl from "./components/PitchOwl";
 import PitchTusk from "./components/PitchTusk";
+import PitchSummary from "./components/PitchSummary";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import Homepage from "./pages/Home";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/pitchlion" element={<PitchLion />} />
           <Route path="/pitchowl" element={<PitchOwl />} />
           <Route path="/pitchtusk" element={<PitchTusk />} />
+          <Route path="/pitchsummary" element={<PitchSummary />} />
           <Route path="/entrepreneur" element={<EntrepreneurPage/>}/>
           <Route path="/investor" element={<InvestorDashboard/>}/>
           </Routes>

@@ -21,6 +21,14 @@ const Navbar = () => {
                 {/* Register Button */}
 
                 <Link
+                  to="/pitchsummary"
+                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Pitch Summary
+                </Link>
+
+                <Link
                   to="/pitch"
                   className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
                 >
@@ -28,34 +36,6 @@ const Navbar = () => {
                   Pitch
                 </Link>
 
-
-                <Link
-                  to="/pitchtusk"
-                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
-                >
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Pitch Tusk
-                </Link>
-
-
-                <Link
-                  to="/pitchowl"
-                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
-                >
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Pitch Owl
-                </Link>
-
-                
-                <Link
-                  to="/pitchtusk"
-                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
-                >
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Pitch Tusk
-                </Link>
-
-                
                 <Link
                   to="/register"
                   className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
