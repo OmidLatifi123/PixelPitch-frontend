@@ -86,7 +86,7 @@ const Homepage = () => {
         <div className="text-center my-20 py-12 bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl">
           <h2 className="text-3xl font-bold mb-6">Ready to Meet Your Match?</h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Start your journey with Pitchimal today
+            Start your journey with Pixel Pitch today
           </p>
           <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">
             Get Started Now
@@ -128,7 +128,7 @@ const Homepage = () => {
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-600">
-            © {new Date().getFullYear()} Pitchimal. All rights reserved.
+            © {new Date().getFullYear()} Pixel Pitch. All rights reserved.
           </div>
         </div>
       </footer>
