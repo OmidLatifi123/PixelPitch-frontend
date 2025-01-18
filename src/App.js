@@ -7,20 +7,27 @@ import PitchTusk from "./components/PitchTusk";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import Homepage from "./pages/Home";
-
-
+import AuthProvider from "./hooks/authProvider";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import CameraPage from "./pages/CameraPage";
 
 function App() {
   return (
     <Router>
+      <AuthProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Homepage/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/mockInterview" element={<CameraPage/>}/>
           <Route path="/pitch" element={<Pitch />} />
           <Route path="/pitchlion" element={<PitchLion />} />
           <Route path="/pitchowl" element={<PitchOwl />} />
           <Route path="/pitchtusk" element={<PitchTusk />} />
           </Routes>
+      </AuthProvider>
     </Router>
   );
 }
