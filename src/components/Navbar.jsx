@@ -19,6 +19,43 @@ const Navbar = () => {
           {/* Navigation Links */}
           <div className="flex items-center space-x-4">
                 {/* Register Button */}
+
+                <Link
+                  to="/pitch"
+                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Pitch
+                </Link>
+
+
+                <Link
+                  to="/pitchtusk"
+                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Pitch Tusk
+                </Link>
+
+
+                <Link
+                  to="/pitchowl"
+                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Pitch Owl
+                </Link>
+
+                
+                <Link
+                  to="/pitchtusk"
+                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Pitch Tusk
+                </Link>
+
+                
                 <Link
                   to="/register"
                   className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"

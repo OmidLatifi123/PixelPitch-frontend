@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./CSS/PitchLion.css";
 
-const PitchLion = () => {
+const PitchTusk = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [inputText, setInputText] = useState("");
@@ -11,15 +11,48 @@ const PitchLion = () => {
   const [turnCount, setTurnCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const initialRequestMade = useRef(false);
 
   useEffect(() => {
-    if (location.state?.initialResponse) {
-      const { message, mood, turn } = location.state.initialResponse;
-      setMascotResponse(message);
-      setMascotMood(mood);
-      setTurnCount(turn);
+    const getInitialResponse = async () => {
+      if (initialRequestMade.current) return; // Skip if request was already made
+      initialRequestMade.current = true;
+
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:5002/conversation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            mascot: 'tusk',
+            input: localStorage.getItem('businessPitch')
+          })
+        });
+
+        if (!response.ok) throw new Error('Failed to get initial response');
+
+        const data = await response.json();
+        setMascotResponse(data.message);
+        setMascotMood(data.mood !== undefined ? data.mood : "Neutral");
+        setTurnCount(data.turn);
+        console.log(`Turn count set to ${data.turn} after initial response`);
+      } catch (err) {
+        console.error('Error details:', err);
+        setError("Failed to get Mr. Tusk's initial thoughts. Please try again.");
+        initialRequestMade.current = false; // Reset on error to allow retry
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    // Only make the initial request if we don't have a response yet
+    if (!mascotResponse) {
+      getInitialResponse();
     }
-  }, [location.state]);
+  }, [mascotResponse]);
 
   const handleSend = async () => {
     if (!inputText.trim()) {
@@ -31,14 +64,14 @@ const PitchLion = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5000/conversation', {
+      const response = await fetch('http://localhost:5002/conversation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          mascot: 'lion',
+          mascot: 'tusk',
           input: inputText.trim()
         })
       });
@@ -50,12 +83,13 @@ const PitchLion = () => {
       const data = await response.json();
       
       setMascotResponse(data.message);
-      setMascotMood(data.mood || "Neutral");
+      setMascotMood(data.mood !== undefined ? data.mood : "Neutral");
       setInputText("");
       setTurnCount(data.turn);
+      console.log(`Turn count set to ${data.turn} after user response`);
     } catch (err) {
       console.error('Error details:', err);
-      setError("Failed to communicate with Leo. Please try again.");
+      setError("Failed to communicate with Mr. Tusk. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -63,22 +97,22 @@ const PitchLion = () => {
 
   return (
     <div className="pitch-page">
-      <h1>Leo the Lion</h1>
-      <h2>Visionary, Leader, Hustler</h2>
-      <div className="turn-counter">Responses Left: {Math.max(0, 2 - (turnCount - 1))}</div>
+      <h1>Mr. Tusk</h1>
+      <h2>Financial Expert & Market Strategist</h2>
+      <div className="turn-counter">Responses Left: {Math.max(0, 3 - turnCount)}</div>
       <div className="canvas-container">
         <div className="mascot-turn">
           <div className="mascot-section">
             <img 
-              src={`/Assets/Mascots/Lion/Lion-${mascotMood.toLowerCase()}.png`}
-              alt={`Lion with ${mascotMood} mood`}
+              src={`/Assets/Mascots/Tusk/Tusk-${mascotMood.toLowerCase()}.png`}
+              alt={`Tusk with ${mascotMood} mood`}
               className="mascot large"
             />
           </div>
           <div className="response-section">
             <div className="mood-box">Mood: {mascotMood}</div>
             <div className="speech-bubble large">
-              <p>{mascotResponse || "Greetings! I'm Leo the Lion. What's your business pitch?"}</p>
+              <p>{mascotResponse || "Let's talk numbers. Show me how this venture makes money."}</p>
             </div>
           </div>
         </div>
@@ -109,10 +143,10 @@ const PitchLion = () => {
             </button>
             {turnCount >= 3 && (
               <button
-                onClick={() => navigate("/PitchOwl")}
+                onClick={() => navigate("/Results")}
                 className="pitch-button next-button"
               >
-                Next Investor
+                See Results
               </button>
             )}
           </div>
@@ -122,4 +156,4 @@ const PitchLion = () => {
   );
 };
 
-export default PitchLion;
+export default PitchTusk;
