@@ -1,12 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Pitch from "./components/Pitch";
+import PitchLion from "./components/PitchLion";
+import PitchOwl from "./components/PitchOwl";
+import PitchTusk from "./components/PitchTusk";
+import Navbar from "./components/Navbar";
+import "./App.css";
 import Homepage from "./pages/Home";
-import Navbar from "./components/Navbar"
 import AuthProvider from "./hooks/authProvider";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CameraPage from "./pages/CameraPage";
-
 
 function App() {
   return (
@@ -18,6 +22,10 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/mockInterview" element={<CameraPage/>}/>
+          <Route path="/pitch" element={<Pitch />} />
+          <Route path="/pitchlion" element={<PitchLion />} />
+          <Route path="/pitchowl" element={<PitchOwl />} />
+          <Route path="/pitchtusk" element={<PitchTusk />} />
           </Routes>
       </AuthProvider>
     </Router>
