@@ -1,57 +1,114 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./CSS/PitchLion.css";
 
 const PitchOwl = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const [inputText, setInputText] = useState("");
-  const [mascotMood, setMascotMood] = useState("Neutral");
-  const [mascotResponse, setMascotResponse] = useState("");
-  const [turnCount, setTurnCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const initialRequestMade = useRef(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef(null);
+  const chunksRef = useRef([]);
+  const [mascotMood, setMascotMood] = useState("Neutral");
+  const [mascotResponse, setMascotResponse] = useState(
+    "H-hello! I'm P-professor Owl. Tell me a bit more about your technical implementations."
+  );
+  const [turnCount, setTurnCount] = useState(0);
 
-  useEffect(() => {
-    const getInitialResponse = async () => {
-      if (initialRequestMade.current) return; // Skip if request was already made
-      initialRequestMade.current = true;
+  // Speech-to-Text Handlers
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderRef.current = new MediaRecorder(stream, {
+        mimeType: "audio/webm;codecs=opus",
+      });
+      chunksRef.current = [];
 
-      setIsLoading(true);
-      try {
-        const response = await fetch('http://localhost:5001/conversation', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            mascot: 'owl',
-            input: localStorage.getItem('businessPitch')
-          })
-        });
+      mediaRecorderRef.current.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunksRef.current.push(e.data);
+        }
+      };
 
-        if (!response.ok) throw new Error('Failed to get initial response');
+      mediaRecorderRef.current.onstop = async () => {
+        const audioBlob = new Blob(chunksRef.current, { type: "audio/webm" });
+        await sendAudioToServer(audioBlob);
 
-        const data = await response.json();
-        setMascotResponse(data.message);
-        setMascotMood(data.mood || "Neutral");
-        setTurnCount(data.turn);
-      } catch (err) {
-        console.error('Error details:', err);
-        setError("Failed to get Professor Owl's initial thoughts. Please try again.");
-        initialRequestMade.current = false; // Reset on error to allow retry
-      } finally {
-        setIsLoading(false);
-      }
-    };
+        // Stop all tracks in the stream
+        stream.getTracks().forEach((track) => track.stop());
+      };
 
-    // Only make the initial request if we don't have a response yet
-    if (!mascotResponse) {
-      getInitialResponse();
+      mediaRecorderRef.current.start(150); // Collect data every 200ms
+      setIsRecording(true);
+      setError("Recording... Click 'Stop' to end.");
+    } catch (err) {
+      console.error("Error accessing microphone:", err);
+      setError("Could not access microphone. Please check permissions.");
+      setIsRecording(false);
     }
-  }, [mascotResponse]);
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      setError(null);
+    }
+  };
+
+  const sendAudioToServer = async (audioBlob) => {
+    setIsLoading(true);
+    try {
+      const base64Audio = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(audioBlob);
+      });
+
+      console.log("Sending audio to server...");
+      const response = await fetch("http://localhost:5001/speech-to-text", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ audio: base64Audio }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to convert speech to text");
+      }
+
+      if (data.success && data.text) {
+        setInputText((prevText) => {
+          const newText = (prevText + " " + data.text).trim();
+          if (newText.length > 200) {
+            setError("Text exceeds 200 characters. Some content may be truncated.");
+            return newText.slice(0, 200);
+          }
+          return newText;
+        });
+      } else {
+        setError("Speech recognition failed. Try again.");
+      }
+    } catch (err) {
+      console.error("Error sending audio to server:", err);
+      setError("Failed to process audio. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTalk = () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
 
   const handleSend = async () => {
     if (!inputText.trim()) {
@@ -63,19 +120,19 @@ const PitchOwl = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5001/conversation', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5001/conversation", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
-          mascot: 'owl',
-          input: inputText.trim()
-        })
+          mascot: "owl",
+          input: inputText.trim(),
+        }),
       });
 
-      if (!response.ok) throw new Error('Failed to send message');
+      if (!response.ok) throw new Error("Failed to send message");
 
       const data = await response.json();
       setMascotResponse(data.message);
@@ -83,7 +140,7 @@ const PitchOwl = () => {
       setInputText("");
       setTurnCount(data.turn);
     } catch (err) {
-      console.error('Error details:', err);
+      console.error("Error details:", err);
       setError("Failed to communicate with Professor Owl. Please try again.");
     } finally {
       setIsLoading(false);
@@ -94,11 +151,13 @@ const PitchOwl = () => {
     <div className="pitch-page">
       <h1>Professor Owl</h1>
       <h2>Technical Analysis & Implementation Expert</h2>
-      <div className="turn-counter">Responses Left: {Math.max(0, 2 - (turnCount - 1))}</div>
+      <div className="turn-counter">
+        Responses Left: {Math.max(0, 2 - (turnCount - 1))}
+      </div>
       <div className="canvas-container">
         <div className="mascot-turn">
           <div className="mascot-section">
-            <img 
+            <img
               src={`/Assets/Mascots/Owl/Owl-${mascotMood.toLowerCase()}.png`}
               alt={`Owl with ${mascotMood} mood`}
               className="mascot large"
@@ -107,7 +166,7 @@ const PitchOwl = () => {
           <div className="response-section">
             <div className="mood-box">Mood: {mascotMood}</div>
             <div className="speech-bubble large">
-              <p>{mascotResponse || "H-hello! I'm P-professor Owl. Let me analyze your technical implementation..."}</p>
+              <p>{mascotResponse}</p>
             </div>
           </div>
         </div>
@@ -129,6 +188,14 @@ const PitchOwl = () => {
             {inputText.length}/200 characters
           </div>
           <div className="button-container">
+            <button
+              className={`pitch-button talk-button ${isRecording ? "recording" : ""}`}
+              onClick={handleTalk}
+              disabled={isLoading}
+              aria-label={isRecording ? "Stop recording" : "Start recording"}
+            >
+              {isRecording ? "Stop" : "Talk"}
+            </button>
             <button
               onClick={handleSend}
               className="pitch-button send-button"

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/Pitch.css";
+import { useAuth } from "../hooks/AuthProvider";
 
 const Pitch = () => {
   const [inputText, setInputText] = useState("");
@@ -11,6 +12,8 @@ const Pitch = () => {
   const chunksRef = useRef([]);
   const navigate = useNavigate();
 
+  const {user} = useAuth();
+  
   const handleSend = async () => {
     if (inputText.trim().length === 0) {
       setError("Please enter a pitch before sending.");
@@ -34,7 +37,8 @@ const Pitch = () => {
         },
         body: JSON.stringify({
           mascot: 'lion',
-          input: inputText.trim()
+          input: inputText.trim(),
+          userEmail:user.email
         })
       });
 
