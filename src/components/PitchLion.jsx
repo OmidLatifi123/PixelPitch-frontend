@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./CSS/PitchLion.css";
-import { useAuth } from "../hooks/AuthProvider";
+import { useAuth } from "../hooks/authProvider";
 
 const PitchLion = () => {
   const location = useLocation();

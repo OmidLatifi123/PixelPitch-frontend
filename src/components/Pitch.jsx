@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/Pitch.css";
-import { useAuth } from "../hooks/AuthProvider";
+import { useAuth } from "../hooks/authProvider";
 
 const Pitch = () => {
   const [inputText, setInputText] = useState("");

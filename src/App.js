@@ -11,6 +11,8 @@ import AuthProvider from "./hooks/authProvider";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CameraPage from "./pages/CameraPage";
+import EntrepreneurPage from "./pages/EntrepreneurDashboard";
+import InvestorDashboard from "./pages/InvestorDashboard";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path="/pitchlion" element={<PitchLion />} />
           <Route path="/pitchowl" element={<PitchOwl />} />
           <Route path="/pitchtusk" element={<PitchTusk />} />
+          <Route path="/entrepreneur" element={<EntrepreneurPage/>}/>
+          <Route path="/investor" element={<InvestorDashboard/>}/>
           </Routes>
       </AuthProvider>
     </Router>
