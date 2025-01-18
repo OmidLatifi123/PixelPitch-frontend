@@ -1,0 +1,217 @@
+/* General Styles */
+.pitch-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .canvas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: calc(100vh - 150px); /* Adjusted for the header + counter */
+    position: relative;
+  }
+  
+  /* Mascot Section */
+  .initial-mascots {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .mascot {
+    width: 500px;
+    height: 500px;
+  }
+  
+  .mascot.large {
+    width: 80%;
+    height: auto;
+    max-height: 800px;
+    object-fit: contain;
+  }
+  
+  .mascot.neutral {
+    filter: grayscale(50%);
+  }
+  
+  .mascot.happy {
+    filter: brightness(1.2);
+  }
+  
+  .mascot.sad {
+    filter: grayscale(80%);
+  }
+  
+  /* Mascot Turn Section */
+  .mascot-turn {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    position: relative;
+      padding: 20px 40px;
+      min-height: calc(100vh - 250px); /* Adjusted to maintain spacing */
+  }
+  
+  .mascot-section {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    height: 100%;
+    position: relative;
+  }
+  
+  .response-section {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    padding-top: 100px;
+  }
+  
+  .speech-bubble {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    width: 600px;
+    height: 300px;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: flex;
+    align-items: left;
+    text-align: left;
+    border: 2px solid #ccc;
+  }
+  
+  .speech-bubble p {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .mood-box {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    background-color: #ffd700;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    border: 1px solid #ccc;
+    z-index: 2;
+  }
+  
+  /* Text Input Container */
+  .text-input-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.563);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    min-height: 150px;
+  }
+  
+  .pitch-textbox {
+    width: 80%;
+    max-width: 600px;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-right: 10px;
+    background: rgba(255, 255, 255, 1);
+    color: #333;
+  }
+  
+  .character-count {
+    font-size: 0.9rem;
+    color: #666;
+    margin-right: 10px;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .pitch-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .send-button {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .send-button:hover {
+    background-color: #218838;
+  }
+  
+  .send-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .next-button {
+    background-color: #ffc107;
+    color: #333;
+  }
+  
+  .next-button:hover {
+    background-color: #e0a800;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  
+  .turn-counter {
+    text-align: center;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .next-button {
+    background-color: #4CAF50;
+    margin-left: 10px;
+  }
+  
+  .next-button:hover {
+    background-color: #45a049;
+  }
