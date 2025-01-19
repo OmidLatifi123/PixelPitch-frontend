@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import CameraPage from "./pages/CameraPage";
 import EntrepreneurPage from "./pages/EntrepreneurDashboard";
 import InvestorDashboard from "./pages/InvestorDashboard";
+import PitchSummary from "./components/PitchSummary";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/pitchtusk" element={<PitchTusk />} />
           <Route path="/entrepreneur" element={<EntrepreneurPage/>}/>
           <Route path="/investor" element={<InvestorDashboard/>}/>
+          <Route path="/pitchsummary" element={<PitchSummary />} />
           </Routes>
       </AuthProvider>
     </Router>
