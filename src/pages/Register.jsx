@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Mail, User, UserPlus, AlertCircle, Rocket, PiggyBank, Lock } from 'lucide-react';
 
 const Register = () => {
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -13,7 +14,9 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     role: "user",
+    companyName: "", 
   });
+  
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -125,6 +128,19 @@ const Register = () => {
                 placeholder="you@example.com"
               />
             </div>
+            <div>
+          <label className="block text-gray-700 text-sm font-medium mb-2">
+            Company Name
+          </label>
+          <input
+            type="text"
+            name="companyName"
+            value={formData.companyName || ""}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+            placeholder="Enter your company name (optional)"
+          />
+        </div>
 
             {/* Password Field */}
             <div>
