@@ -36,13 +36,9 @@ const Register = () => {
 
     try {
       const response = await axios.post("http://127.0.0.1:5003/register", formData);
-      alert(response.data.message);
-      // Redirect based on role
-      if (formData.role === "investor") {
-        navigate("/investorInfo");
-      } else {
-        navigate("/entrepreneur");
-      }
+      alert("Please Login to begin your journey");
+  
+        navigate("/login")
     } catch (error) {
       setError("An error occurred. Please try again.");
     } finally {
