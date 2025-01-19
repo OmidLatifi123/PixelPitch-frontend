@@ -20,25 +20,27 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify(data),
       });
       const res = await response.json();
-      if (res.data) {
-        setUser(res.data.user);
-        setToken(res.token);
-        console.log("got this from server",res.data)
-        localStorage.setItem("site", res.token);
-        console.log(res.data.role)
-        if(res.data.user.role=="investor"){
-              navigate("/dashboard");
-              return;
+  
+      if (res.data && res.data.user) {
+        // Store  companyName
+        const companyName = res.data.user.companyName || "Unknown Company";
+        localStorage.setItem("companyName", companyName);
+        console.log("Company Name stored:", companyName);
+  
+        // Navigate based on role
+        if (res.data.user.role === "investor") {
+          navigate("/dashboard");
+        } else {
+          navigate("/entrepreneur");
         }
-        navigate("/entrepreneur")
-        return
-    
+      } else {
+        throw new Error(res.message);
       }
-      throw new Error(res.message);
     } catch (err) {
       console.error(err);
     }
   };
+  
 
   const logOut = () => {
     setUser(null);
