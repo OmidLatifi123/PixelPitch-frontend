@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./CSS/PitchLion.css";
-import { useAuth } from "../hooks/authProvider";
 
 const PitchLion = () => {
   const location = useLocation();
@@ -15,13 +14,6 @@ const PitchLion = () => {
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
-
-  const {user} = useAuth();
-  console.log("USRER ISSIS",user)
-
-  useEffect(() => {
-    console.log("Current user data:", user);
-  }, []);
 
   useEffect(() => {
     if (location.state?.initialResponse) {
@@ -40,18 +32,18 @@ const PitchLion = () => {
 
     setIsLoading(true);
     setError(null);
-    console.log("USER IS",user)
+
     try {
-      const response = await fetch('http://localhost:5000/conversation', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/conversation", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          mascot: 'lion',
-          input: inputText.trim()
-        })
+          mascot: "lion",
+          input: inputText.trim(),
+        }),
       });
 
       if (!response.ok) {
