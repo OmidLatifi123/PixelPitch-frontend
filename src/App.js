@@ -29,6 +29,7 @@ function App() {
           <Route path="/pitchlion" element={<PitchLion />} />
           <Route path="/pitchowl" element={<PitchOwl />} />
           <Route path="/pitchtusk" element={<PitchTusk />} />
+          <Route path="/pitchsummary" element={<PitchSummary />} />
           <Route path="/entrepreneur" element={<EntrepreneurPage/>}/>
           <Route path="/investor" element={<InvestorDashboard/>}/>
           <Route path="/pitchsummary" element={<PitchSummary />} />
