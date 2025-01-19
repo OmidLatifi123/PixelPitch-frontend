@@ -150,42 +150,80 @@
   }
 
   .summary-mascot-name {
-    font-size: 1.8rem;
+    font-family: "Pixelify Sans", serif;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 10px;
-    padding: 5px 10px;
+    padding: 8px 15px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: white;  /* Only one background-color declaration */
+    background-color: white;
+    text-transform: uppercase;
 }
  
- /* Lion gradient - orange/gold */
- .summary-mascot-name.lion {
+/* Lion gradient - orange/gold */
+.summary-mascot-column:nth-child(1) .summary-mascot-name {
     background: linear-gradient(45deg, #ffd700, #ff7700);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
- }
+    text-shadow: none;
+}
  
- /* Owl gradient - blue/purple */ 
- .summary-mascot-name.owl {
+/* Owl gradient - blue/purple */ 
+.summary-mascot-column:nth-child(2) .summary-mascot-name {
     background: linear-gradient(45deg, #3668fe, #04b4ff);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
- }
+    text-shadow: none;
+}
  
- /* Tusk gradient - green/teal */
- .summary-mascot-name.tusk {
+/* Tusk gradient - green/teal */
+.summary-mascot-column:nth-child(3) .summary-mascot-name {
     background: linear-gradient(45deg, #32cd32, #00c9c9);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
- }
+    text-shadow: none;
+}
 
- .summary-mascot-adjectives {
+.summary-mascot-adjectives {
+    font-family: "Pixelify Sans", serif;
     font-size: 1rem;
     font-weight: 400;
     margin-top: 5px;
-    color: #666;
+    padding: 4px 8px;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
+
+.summary-page {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("/public/Assets/background-general.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding-top: 10%;
+}
+
+.summary-title {
+  font-family: "Pixelify Sans", serif;
+  font-size: 3.5rem;
+  color: #FF5F02;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  -webkit-text-stroke: 1px white;
+  text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
 }

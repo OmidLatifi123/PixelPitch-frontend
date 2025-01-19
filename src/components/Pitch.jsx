@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/Pitch.css";
 import { useAuth } from "../hooks/authProvider";
+import Footer from "./Footer";
+
 
 const Pitch = () => {
   const [inputText, setInputText] = useState("");
@@ -12,7 +14,7 @@ const Pitch = () => {
   const chunksRef = useRef([]);
   const navigate = useNavigate();
 
-  const {user} = useAuth();
+  // const {user} = useAuth();
   
   const handleSend = async () => {
     if (inputText.trim().length === 0) {
@@ -37,8 +39,7 @@ const Pitch = () => {
         },
         body: JSON.stringify({
           mascot: 'lion',
-          input: inputText.trim(),
-          userEmail:user.email
+          input: inputText.trim()
         })
       });
 
@@ -174,63 +175,74 @@ const Pitch = () => {
   };
 
   return (
-    <div className="pitch-page">
-      <h1>Pitch Your Idea</h1>
-      <div className="canvas-container">
-        <div className="pitch-mascots">
-          <img 
-            src="/Assets/Mascots/Lion/Lion-neutral.png" 
-            alt="Lion" 
-            className="pitchmascot"
-          />
-          <img 
-            src="/Assets/Mascots/Owl/Owl-neutral.png" 
-            alt="Owl" 
-            className="pitchmascot"
-          />
-          <img 
-            src="/Assets/Mascots/Tusk/Tusk-neutral.png" 
-            alt="Tusk" 
-            className="pitchmascot"
-          />
+    <div className="pitch-wrapper">
+      <div className="pitch-container">
+        {/* Title Section */}
+        <div className="pitch-header">
+          <h1 className="pitch-title">
+            Pitch Your Idea
+          </h1>
+          <p className="pitch-subtitle">
+            Share your business concept with our AI mentors. Speak or type your pitch to get personalized feedback and guidance.
+          </p>
         </div>
-        <div className="text-input-container">
-          <textarea
-            value={inputText}
-            onChange={handleTextChange}
-            placeholder="Type your business pitch here (max 400 characters)..."
-            className="pitch-textbox"
-            maxLength="400"
-            disabled={isLoading || isRecording}
-          />
-          <div className="character-count">
-            {inputText.length}/400 characters
+
+        {/* Keep your existing canvas container and its contents */}
+        <div className="canvas-container">
+          <div className="pitch-mascots">
+            <img 
+              src="/Assets/Mascots/Lion/Lion-neutral.png" 
+              alt="Lion" 
+              className="pitchmascot"
+            />
+            <img 
+              src="/Assets/Mascots/Owl/Owl-neutral.png" 
+              alt="Owl" 
+              className="pitchmascot"
+            />
+            <img 
+              src="/Assets/Mascots/Tusk/Tusk-neutral.png" 
+              alt="Tusk" 
+              className="pitchmascot"
+            />
           </div>
-          {error && (
-            <div className="error-message" role="alert">
-              {error}
+          <div className="text-input-container">
+            <textarea
+              value={inputText}
+              onChange={handleTextChange}
+              placeholder="Type your business pitch here (max 400 characters)..."
+              className="pitch-textbox"
+              maxLength="400"
+              disabled={isLoading || isRecording}
+            />
+            <div className="character-count">
+              {inputText.length}/400 characters
             </div>
-          )}
-          <div className="button-container">
-            <button 
-              className={`pitch-button talk-button ${isRecording ? 'recording' : ''}`}
-              onClick={handleTalk}
-              disabled={isLoading}
-              aria-label={isRecording ? "Stop recording" : "Start recording"}
-            >
-              {isRecording ? "Stop" : "Talk"}
-            </button>
-            <button 
-              className="pitch-button send-button" 
-              onClick={handleSend}
-              disabled={isLoading || !inputText.trim() || isRecording}
-              aria-label="Send pitch"
-            >
-              {isLoading ? "Sending..." : "Send"}
-            </button>
+            {error && (
+              <div className="error-message" role="alert">
+                {error}
+              </div>
+            )}
+            <div className="button-container">
+              <button 
+                className={`pitch-button talk-button ${isRecording ? 'recording' : ''}`}
+                onClick={handleTalk}
+                disabled={isLoading}
+              >
+                {isRecording ? "Stop" : "Talk"}
+              </button>
+              <button 
+                className="pitch-button send-button" 
+                onClick={handleSend}
+                disabled={isLoading || !inputText.trim() || isRecording}
+              >
+                {isLoading ? "Sending..." : "Send"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

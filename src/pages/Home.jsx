@@ -67,15 +67,11 @@ const Homepage = () => {
     }}>
       Pixel Pitch
     </h1>
+
             <p className="text-2xl text-white font-semibold max-w-3xl mx-auto" style={{
               textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
             }}>
-              Pitch Perfectly, Match Seamlessly, Succeed with New Perspectives.
-            </p>
-            <p className="text-2xl text-white font-semibold max-w-3xl mx-auto" style={{
-              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
-            }}>
-              Practice, Pitch, Match, and Succeed with Newlyfound Perspectives
+              Practice, Pitch, Match, and Succeed with New Perspectives
             </p>
             <div className="flex justify-center gap-4 pt-8">
   <button 

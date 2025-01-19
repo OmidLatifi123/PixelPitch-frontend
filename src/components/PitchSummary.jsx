@@ -107,13 +107,13 @@ const PitchSummary = () => {
         </div>
       </div>
       <div className="summary-footer">
-        <button
-          className="submit-button flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
-          onClick={handleSubmitPitch}
-        >
-          <CheckCircle className="h-5 w-5 mr-2" />
-          Close & Submit Pitch for Evaluation
-        </button>
+      <button
+  className="submit-button flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-[#FF5F02] to-[#FF8B3D] text-white hover:scale-105 transition-all duration-300 font-['Pixelify_Sans'] text-lg gap-2 shadow-lg"
+  onClick={handleSubmitPitch}
+>
+  <CheckCircle className="h-5 w-5" />
+  Submit Pitch for Evaluation
+</button>
       </div>
       {error && (
         <div className="error-message">

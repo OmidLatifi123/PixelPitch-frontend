@@ -11,9 +11,12 @@ import AuthProvider from "./hooks/authProvider";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CameraPage from "./pages/CameraPage";
-import EntrepreneurPage from "./pages/EntrepreneurDashboard";
+import EntrepreneurPage from "./pages/EntrepreneurPage";
 import InvestorDashboard from "./pages/InvestorDashboard";
 import PitchSummary from "./components/PitchSummary";
+import InvestorMatchesPage from "./pages/InvestorMatchesPage";
+import InvestorDashboardPage from "./pages/InvestorDashboard";
+import InvestorPreferences from "./components/investorPreference";
 
 function App() {
   return (
@@ -33,6 +36,8 @@ function App() {
           <Route path="/entrepreneur" element={<EntrepreneurPage/>}/>
           <Route path="/investor" element={<InvestorDashboard/>}/>
           <Route path="/pitchsummary" element={<PitchSummary />} />
+          <Route path="/matches" element={<InvestorMatchesPage/>}/>
+          <Route path="/investorinfo" element={<InvestorPreferences/>}/>
           </Routes>
       </AuthProvider>
     </Router>

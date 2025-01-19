@@ -26,7 +26,6 @@ export default function PitchFeedback({
   };
 
   function handleFinishPitch() {
-    // Save pitch analytics and feedback
     const pitchData = {
       metrics: {
         confidence,
@@ -37,81 +36,59 @@ export default function PitchFeedback({
       timestamp: new Date(),
       feedback: liveFeedback
     };
-    // Handle saving/navigation logic here
   }
 
   // Convert metrics to percentages
   const getMetricColor = (value) => {
-    if (value >= 80) return 'text-green-600';
-    if (value >= 60) return 'text-yellow-600';
-    return 'text-orange-600';
+    if (value >= 80) return 'text-[#FF5F02]';
+    if (value >= 60) return 'text-[#FF8B3D]';
+    return 'text-orange-300';
   };
 
   return (
-    <div className="flex flex-col bg-white p-6 shadow-lg absolute bottom-0 left-0 right-0 mx-4 mb-6 rounded-xl z-10">
+    <div className="w-full">
       {/* Current Section & Status */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
-          <Mic className="h-5 w-5 text-purple-600 animate-pulse" />
-          <span className="font-bold text-lg">
+          <Mic className="h-5 w-5 text-[#FF5F02] animate-pulse" />
+          <span className="font-bold text-lg text-white">
             {currentAnimal ? `Pitching to ${currentAnimal}: ${animals[currentAnimal]}` : 'Preparing...'}
           </span>
         </div>
-        <div className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+        <div className="px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm border border-white/30">
           {status}
         </div>
       </div>
 
       {/* Live Metrics */}
-      <div className="grid grid-cols-4 gap-4 mb-4">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-1 text-gray-600 text-sm mb-1">
-            <Activity className="h-4 w-4" />
-            Confidence
-          </div>
-          <div className={`font-bold ${getMetricColor(confidence)}`}>
-            {confidence}%
-          </div>
+      <div className="grid grid-cols-4 gap-4 mb-6">
+  {[
+    { icon: Activity, label: 'Confidence', value: confidence },
+    { icon: Timer, label: 'Pace', value: pace },
+    { icon: Volume2, label: 'Clarity', value: clarity },
+    { icon: Sparkles, label: 'Engagement', value: engagement }
+  ].map((metric, index) => (
+    <div key={index} className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/100">
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex items-center justify-center gap-1 text-white/100 text-sm">
+          <metric.icon className="h-4 w-4" />
+          {metric.label}
         </div>
-
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-1 text-gray-600 text-sm mb-1">
-            <Timer className="h-4 w-4" />
-            Pace
-          </div>
-          <div className={`font-bold ${getMetricColor(pace)}`}>
-            {pace}%
-          </div>
-        </div>
-
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-1 text-gray-600 text-sm mb-1">
-            <Volume2 className="h-4 w-4" />
-            Clarity
-          </div>
-          <div className={`font-bold ${getMetricColor(clarity)}`}>
-            {clarity}%
-          </div>
-        </div>
-
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-1 text-gray-600 text-sm mb-1">
-            <Sparkles className="h-4 w-4" />
-            Engagement
-          </div>
-          <div className={`font-bold ${getMetricColor(engagement)}`}>
-            {engagement}%
-          </div>
+        <div className="font-bold text-xl text-white">
+          {metric.value}%
         </div>
       </div>
+    </div>
+  ))}
+</div>
 
       {/* Live Feedback */}
-      <div className="bg-gray-50 rounded-lg p-3 mb-4">
-        <div className="flex items-center gap-2 mb-2">
-          <MessageCircle className="h-4 w-4 text-purple-600" />
-          <span className="text-sm text-gray-600">Live Feedback</span>
+      <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 mb-6 border border-white/30">
+        <div className="flex items-center gap-2 mb-3">
+          <MessageCircle className="h-5 w-5 text-[#FF5F02]" />
+          <span className="text-sm text-white font-semibold">Live Feedback</span>
         </div>
-        <p className="text-gray-700">
+        <p className="text-white/90">
           {liveFeedback || "Waiting for you to start..."}
         </p>
       </div>
@@ -119,10 +96,10 @@ export default function PitchFeedback({
       {/* Action Button */}
       <div className="flex justify-center">
         <button
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg py-2 px-6 flex items-center justify-center hover:opacity-90 transition-opacity"
+          className="bg-gradient-to-r from-[#FF5F02] to-[#FF8B3D] hover:from-[#FF8B3D] hover:to-[#FF5F02] text-white rounded-lg py-3 px-8 flex items-center justify-center shadow-lg transition-all duration-300"
           onClick={handleFinishPitch}
         >
-          <Save className="mr-2 h-4 w-4" />
+          <Save className="mr-2 h-5 w-5" />
           Complete Section
         </button>
       </div>

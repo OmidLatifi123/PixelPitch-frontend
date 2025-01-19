@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import io from 'socket.io-client';
 import PitchFeedback from "./ImageFeedback";
+import { Play, ArrowRight, Video, VideoOff } from 'lucide-react';
 
 const PitchCamera = () => {
   const videoRef = useRef(null);
@@ -8,7 +9,7 @@ const PitchCamera = () => {
   const streamRef = useRef(null);
   const socket = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [currentAnimal, setCurrentAnimal] = useState('leo'); // Start with Leo
+  const [currentAnimal, setCurrentAnimal] = useState('leo');
 
   const [pitchData, setPitchData] = useState({
     status: "Ready to start",
@@ -22,7 +23,6 @@ const PitchCamera = () => {
   const animalSequence = ['leo', 'owlbert', 'rocket', 'elephant'];
   const [currentAnimalIndex, setCurrentAnimalIndex] = useState(0);
 
-  
   useEffect(() => {
     console.log('Connecting to the server...');
     
@@ -56,7 +56,7 @@ const PitchCamera = () => {
       try {
         const constraints = {
           video: true,
-          audio: true // Enable audio for pitch practice
+          audio: true
         };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         streamRef.current = stream;
@@ -80,6 +80,7 @@ const PitchCamera = () => {
     };
   }, []);
 
+  // Keep all your existing functions (getCurrentSection, captureFrame, etc.)
   const getCurrentSection = () => {
     switch(currentAnimal) {
       case 'leo':
@@ -102,33 +103,19 @@ const PitchCamera = () => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
 
-        // Make sure canvas dimensions match video
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-
-        // Draw the video frame to canvas
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // Get base64 string
-        const imageDataURL = canvas.toDataURL('image/jpeg', 0.8); // Added quality parameter
+        const imageDataURL = canvas.toDataURL('image/jpeg', 0.8);
         const base64Image = imageDataURL.split(',')[1];
 
-        // Verify we have data before sending
         if (base64Image && base64Image.length > 0) {
-          console.log('Sending frame, length:', base64Image.length);
           socket.current.emit('frame', base64Image);
-        } else {
-          console.error('No frame data captured');
         }
       } catch (error) {
         console.error('Error capturing frame:', error);
       }
-    } else {
-      console.log('Skipping frame capture:', {
-        hasVideo: !!videoRef.current,
-        hasCanvas: !!canvasRef.current,
-        isRecording
-      });
     }
   };
 
@@ -136,37 +123,17 @@ const PitchCamera = () => {
     let frameInterval;
 
     if (isRecording) {
-      console.log('Starting frame capture interval');
       frameInterval = setInterval(() => {
         captureFrame();
-      }, 5000); // Match backend interval
+      }, 5000);
     }
 
     return () => {
       if (frameInterval) {
-        console.log('Clearing frame capture interval');
         clearInterval(frameInterval);
       }
     };
   }, [isRecording]);
-
-  // Add socket error handling
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on('error', (error) => {
-        console.error('Socket error:', error);
-      });
-
-      socket.current.on('connect_error', (error) => {
-        console.error('Socket connection error:', error);
-      });
-    }
-  }, []);
-
-  // Add debugger to check data updates
-  useEffect(() => {
-    console.log('Pitch data updated:', pitchData);
-  }, [pitchData]);
 
   const handleStartPitch = () => {
     console.log('Starting pitch recording');
@@ -178,41 +145,72 @@ const PitchCamera = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-100">
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        className="w-full h-auto"
-      />
-      <canvas ref={canvasRef} className="hidden" />
-      
-      <PitchFeedback
-        status={pitchData.status}
-        confidence={pitchData.confidence}
-        pace={pitchData.engagement}
-        clarity={pitchData.clarity}
-        engagement={pitchData.engagement}
-        currentAnimal={currentAnimal}
-        liveFeedback={pitchData.feedback}
-      />
+    <div className="w-full max-w-lg mx-auto space-y-6">
+      {/* Video Container */}
+      <div className="relative bg-white/30 backdrop-blur-md rounded-lg shadow-xl border border-white/20 overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          className="w-full h-auto rounded-lg"
+        />
+        <canvas ref={canvasRef} className="hidden" />
+        
+        {/* Status Badge */}
+        <div className="absolute top-4 left-4">
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${
+            isRecording 
+              ? 'bg-[#FF5F02]/80 text-white' 
+              : 'bg-white/80 text-[#FF5F02]'
+          } backdrop-blur-sm`}>
+            <div className={`w-2 h-2 rounded-full ${
+              isRecording ? 'animate-pulse bg-white' : 'bg-[#FF5F02]'
+            }`} />
+            <span className="text-sm font-medium">
+              {isRecording ? 'Recording' : 'Ready'}
+            </span>
+          </div>
+        </div>
+        
+        {/* Controls Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
+          <div className="flex justify-between items-center">
+            <div className="text-white font-semibold">
+              {pitchData.currentSection}
+            </div>
+            <div className="space-x-3">
+              {!isRecording ? (
+                <button
+                  onClick={handleStartPitch}
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#FF5F02] to-[#FF8B3D] hover:from-[#FF8B3D] hover:to-[#FF5F02] text-white rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2"
+                >
+                  <Play className="h-5 w-5" />
+                  Start Pitch
+                </button>
+              ) : (
+                <button
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#FF5F02] to-[#FF8B3D] hover:from-[#FF8B3D] hover:to-[#FF5F02] text-white rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2"
+                >
+                  <ArrowRight className="h-5 w-5" />
+                  Next Section
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div className="absolute top-4 right-4 space-x-2">
-        {!isRecording ? (
-          <button
-            onClick={handleStartPitch}
-            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700"
-          >
-            Start Pitch
-          </button>
-        ) : (
-          <button
-            // onClick={handleNextSection}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
-          >
-            Next Section
-          </button>
-        )}
+      {/* Feedback Container */}
+      <div className="bg-white/30 backdrop-blur-md rounded-lg p-6 shadow-xl border border-white/20">
+        <PitchFeedback
+          status={pitchData.status}
+          confidence={pitchData.confidence}
+          pace={pitchData.engagement}
+          clarity={pitchData.clarity}
+          engagement={pitchData.engagement}
+          currentAnimal={currentAnimal}
+          liveFeedback={pitchData.feedback}
+        />
       </div>
     </div>
   );

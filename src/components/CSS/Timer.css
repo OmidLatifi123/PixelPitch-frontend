@@ -1,0 +1,25 @@
+.timer {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .timer p {
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .timer-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  
+  .timer-bar-fill {
+    height: 100%;
+    background-color: #007bff;
+    transition: width 1s linear;
+  }
+  
