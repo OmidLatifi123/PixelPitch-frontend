@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/PitchLion.css";
 
@@ -15,6 +15,7 @@ const PitchTusk = () => {
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
+  const [audioSrc, setAudioSrc] = useState(null);
 
   const handleSend = async () => {
     if (!inputText.trim()) {
@@ -26,6 +27,7 @@ const PitchTusk = () => {
     setError(null);
 
     try {
+      // 1. Get Tusk's response
       const response = await fetch("http://localhost:5002/conversation", {
         method: "POST",
         headers: {
@@ -43,10 +45,47 @@ const PitchTusk = () => {
       }
 
       const data = await response.json();
-      setMascotResponse(data.message);
+      const tuskText = data.message;
+      setMascotResponse(tuskText);
       setMascotMood(data.mood !== undefined ? data.mood : "Neutral");
       setInputText("");
       setTurnCount(data.turn);
+
+      // 2. Call TTS to get audio
+      if (tuskText) {
+        const ttsResponse = await fetch("http://localhost:3001/api/tts/Tusk", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: tuskText }),
+        });
+
+        if (!ttsResponse.ok) {
+          throw new Error("TTS request failed");
+        }
+
+        const ttsData = await ttsResponse.json();
+        
+        // Create audio URL from base64 data
+        const audioUrl = `data:audio/mpeg;base64,${ttsData.audioContent}`;
+        
+        // Create and play audio
+        const audio = new Audio(audioUrl);
+        audio.oncanplaythrough = () => {
+          audio.play().catch(err => {
+            console.error("Audio playback error:", err);
+            setError("Audio playback failed. Please check your audio settings.");
+          });
+        };
+        
+        audio.onerror = (e) => {
+          console.error("Audio loading error:", e);
+          setError("Failed to load audio. Please try again.");
+        };
+
+        setAudioSrc(audioUrl);
+      }
     } catch (err) {
       console.error("Error details:", err);
       setError("Failed to communicate with Mr. Tusk. Please try again.");
@@ -55,6 +94,17 @@ const PitchTusk = () => {
     }
   };
 
+  // Auto-play audio whenever audioSrc changes
+  useEffect(() => {
+    if (audioSrc) {
+      const audio = new Audio(audioSrc);
+      audio.play().catch((err) => {
+        console.warn("Auto-play might be blocked. User interaction required.");
+      });
+    }
+  }, [audioSrc]);
+
+  // Rest of the component remains the same...
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -73,11 +123,10 @@ const PitchTusk = () => {
         const audioBlob = new Blob(chunksRef.current, { type: "audio/webm" });
         await sendAudioToServer(audioBlob);
 
-        // Stop all tracks in the stream
         stream.getTracks().forEach((track) => track.stop());
       };
 
-      mediaRecorderRef.current.start(150); // Collect data every 200ms
+      mediaRecorderRef.current.start(150);
       setIsRecording(true);
       setError("Recording... Click 'Stop' to end.");
     } catch (err) {

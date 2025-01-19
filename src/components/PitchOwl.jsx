@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/PitchLion.css";
 
@@ -15,6 +15,9 @@ const PitchOwl = () => {
     "H-hello! I'm P-professor Owl. Tell me a bit more about your technical implementations."
   );
   const [turnCount, setTurnCount] = useState(0);
+
+  // NEW STATE for audio playback
+  const [audioSrc, setAudioSrc] = useState(null);
 
   // Speech-to-Text Handlers
   const startRecording = async () => {
@@ -39,7 +42,7 @@ const PitchOwl = () => {
         stream.getTracks().forEach((track) => track.stop());
       };
 
-      mediaRecorderRef.current.start(150); // Collect data every 200ms
+      mediaRecorderRef.current.start(150); // Collect data every 150ms
       setIsRecording(true);
       setError("Recording... Click 'Stop' to end.");
     } catch (err) {
@@ -86,7 +89,7 @@ const PitchOwl = () => {
         setInputText((prevText) => {
           const newText = (prevText + " " + data.text).trim();
           if (newText.length > 200) {
-            setError("Text exceeds 200 characters. Some content may be truncated.");
+            setError("Text exceeds 200 characters. Truncating...");
             return newText.slice(0, 200);
           }
           return newText;
@@ -120,6 +123,7 @@ const PitchOwl = () => {
     setError(null);
 
     try {
+      // 1. Get Owl's response
       const response = await fetch("http://localhost:5001/conversation", {
         method: "POST",
         headers: {
@@ -135,17 +139,63 @@ const PitchOwl = () => {
       if (!response.ok) throw new Error("Failed to send message");
 
       const data = await response.json();
-      setMascotResponse(data.message);
+      const owlText = data.message;
+      setMascotResponse(owlText);
       setMascotMood(data.mood || "Neutral");
       setInputText("");
       setTurnCount(data.turn);
+
+      // 2. Call TTS to get audio
+      if (owlText) {
+        const ttsResponse = await fetch("http://localhost:3001/api/tts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: owlText }),
+        });
+
+        if (!ttsResponse.ok) {
+          throw new Error("TTS request failed");
+        }
+
+        const ttsData = await ttsResponse.json();
+        
+        // Create audio URL from base64 data
+        const audioUrl = `data:audio/mpeg;base64,${ttsData.audioContent}`;
+        
+        // Create and play audio
+        const audio = new Audio(audioUrl);
+        audio.oncanplaythrough = () => {
+          audio.play().catch(err => {
+            console.error("Audio playback error:", err);
+            setError("Audio playback failed. Please check your audio settings.");
+          });
+        };
+        
+        audio.onerror = (e) => {
+          console.error("Audio loading error:", e);
+          setError("Failed to load audio. Please try again.");
+        };
+
+        setAudioSrc(audioUrl);
+      }
     } catch (err) {
       console.error("Error details:", err);
       setError("Failed to communicate with Professor Owl. Please try again.");
     } finally {
       setIsLoading(false);
     }
-  };
+};
+  // 4. Attempt to auto-play audio whenever audioSrc changes
+  useEffect(() => {
+    if (audioSrc) {
+      const audio = new Audio(audioSrc);
+      audio.play().catch((err) => {
+        console.warn("Auto-play might be blocked. User interaction required.");
+      });
+    }
+  }, [audioSrc]);
 
   return (
     <div className="pitch-page">

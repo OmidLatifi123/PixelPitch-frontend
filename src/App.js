@@ -4,7 +4,6 @@ import Pitch from "./components/Pitch";
 import PitchLion from "./components/PitchLion";
 import PitchOwl from "./components/PitchOwl";
 import PitchTusk from "./components/PitchTusk";
-import PitchSummary from "./components/PitchSummary";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import Homepage from "./pages/Home";
@@ -14,6 +13,7 @@ import Register from "./pages/Register";
 import CameraPage from "./pages/CameraPage";
 import EntrepreneurPage from "./pages/EntrepreneurDashboard";
 import InvestorDashboard from "./pages/InvestorDashboard";
+import PitchSummary from "./components/PitchSummary";
 
 function App() {
   return (
@@ -32,6 +32,7 @@ function App() {
           <Route path="/pitchsummary" element={<PitchSummary />} />
           <Route path="/entrepreneur" element={<EntrepreneurPage/>}/>
           <Route path="/investor" element={<InvestorDashboard/>}/>
+          <Route path="/pitchsummary" element={<PitchSummary />} />
           </Routes>
       </AuthProvider>
     </Router>

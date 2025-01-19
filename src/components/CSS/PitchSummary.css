@@ -1,191 +1,191 @@
 .summary-page {
-  text-align: center;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  padding: 20px;
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .summary-title {
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .summary-canvas-container {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    min-height: 1200px;
+    background-image: url("./Images/Other/Background.jpg");
+    background-size: cover;
+    background-position: center -150px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .summary-mascots-container {
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    width: 100%;
+    padding: 20px;
+    margin-top: auto;
+    z-index: 1; /* Changed to be above the summary section */
+    transform: translateY(1px); /* Move mascots down to overlap with summary */
+  }
+  
+  .summary-mascot-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto; /* Changed from percentage to auto */
+    margin-bottom: -80px;
 }
-
-.summary-title {
-  font-size: 3rem;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.summary-canvas-container {
-  position: relative;
-  width: 100%;
-  height: 90vh;
-  min-height: 1200px;
-  background-image: url("./Images/Other/Background.jpg");
-  background-size: cover;
-  background-position: center -150px;
-  border: 2px solid #333;
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-.summary-mascots-container {
-  position: relative;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-end;
-  width: 100%;
-  padding: 20px;
-  margin-top: auto;
-  z-index: 1; /* Changed to be above the summary section */
-  transform: translateY(1px); /* Move mascots down to overlap with summary */
-}
-
-.summary-mascot-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: auto; /* Changed from percentage to auto */
-  margin-bottom: -80px;
-}
-
-.summary-mood-box {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 8px 15px;
-  margin-bottom: 10px;
-  width: fit-content;
-  text-align: center;
-  font-weight: bold;
-  color: #333;
-  font-size: 0.9rem;
-  background-color: #ffd700;
-padding: 5px 10px;
-border-radius: 10px;
-font-size: 1rem;
-}
-
-.summary-response-box {
-  background: rgba(255, 255, 255, 1);
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 15px;
-  margin-bottom: 20px;
-  width: 400px;
-  height: 300px;
-  text-align: left;  /* Changed from center to left */
-  overflow-y: auto;
-  color: #000000;
-  font-size: 1.1rem;
-  box-sizing: border-box;
-  /* Remove or modify the flex properties */
-  display: block;  /* Changed from flex to block */
-  /* Remove align-items and justify-content */
-}
-
-.summary-mascot-image {
-  width: 100%;
-  max-width: 350px;
-  height: auto;
-  object-fit: contain;
-}
-
-.summary-text-section {
-  position: relative;
-  background: rgba(255, 255, 255, 0.5); /* More transparent background */
-  backdrop-filter: blur(10px); /* Glassmorphism effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari support */
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.17);
-  padding: 10px;
-  width: 100%;
-  z-index: 2;
-  margin-top: auto;
-  min-height: 600px;
-}
-
-.summary-subtitle {
-  color: #000000;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.summary-content {
-  color: #000000;
-  line-height: 1.6;
-  padding: 0 40px;
-  margin-bottom: 20px;
-  font-size: 1rem;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.summary-content-h3 {
-  color: #000000;
-  line-height: 1.6;
-  padding: 0 40px;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  font-weight: 700;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.summary-content-p {
-  color: #000000;
-  line-height: 1.6;
-  padding: 0 40px;
-  margin-bottom: 20px;
-  font-size: 1rem;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.summary-mascot-name {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 10px;
+  
+  .summary-mood-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+    width: fit-content;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    font-size: 0.9rem;
+    background-color: #ffd700;
   padding: 5px 10px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: white;  /* Only one background-color declaration */
-}
-
-/* Lion gradient - orange/gold */
-.summary-mascot-name.lion {
-  background: linear-gradient(45deg, #ffd700, #ff7700);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Owl gradient - blue/purple */ 
-.summary-mascot-name.owl {
-  background: linear-gradient(45deg, #3668fe, #04b4ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Tusk gradient - green/teal */
-.summary-mascot-name.tusk {
-  background: linear-gradient(45deg, #32cd32, #00c9c9);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.summary-mascot-adjectives {
   font-size: 1rem;
-  font-weight: 400;
-  margin-top: 5px;
-  color: #666;
+  }
+  
+.summary-response-box {
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 400px;
+    height: 300px;
+    text-align: left;  /* Changed from center to left */
+    overflow-y: auto;
+    color: #000000;
+    font-size: 1.1rem;
+    box-sizing: border-box;
+    /* Remove or modify the flex properties */
+    display: block;  /* Changed from flex to block */
+    /* Remove align-items and justify-content */
+}
+  
+  .summary-mascot-image {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .summary-text-section {
+    position: relative;
+    background: rgba(255, 255, 255, 0.5); /* More transparent background */
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.17);
+    padding: 10px;
+    width: 100%;
+    z-index: 2;
+    margin-top: auto;
+    min-height: 600px;
+  }
+  
+  .summary-subtitle {
+    color: #000000;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .summary-content {
+    color: #000000;
+    line-height: 1.6;
+    padding: 0 40px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .summary-content-h3 {
+    color: #000000;
+    line-height: 1.6;
+    padding: 0 40px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  .summary-content-p {
+    color: #000000;
+    line-height: 1.6;
+    padding: 0 40px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .summary-mascot-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;  /* Only one background-color declaration */
+}
+ 
+ /* Lion gradient - orange/gold */
+ .summary-mascot-name.lion {
+    background: linear-gradient(45deg, #ffd700, #ff7700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+ }
+ 
+ /* Owl gradient - blue/purple */ 
+ .summary-mascot-name.owl {
+    background: linear-gradient(45deg, #3668fe, #04b4ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+ }
+ 
+ /* Tusk gradient - green/teal */
+ .summary-mascot-name.tusk {
+    background: linear-gradient(45deg, #32cd32, #00c9c9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+ }
+
+ .summary-mascot-adjectives {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 5px;
+    color: #666;
 }
