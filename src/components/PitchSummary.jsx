@@ -48,27 +48,49 @@ const PitchSummary = () => {
       <div className="summary-canvas-container">
         <div className="summary-mascots-container">
           {/* Mascot Sections */}
-          {["lion", "owl", "tusk"].map((mascot) => (
-            <div key={mascot} className="summary-mascot-column">
-              <div className="summary-mood-box">
-                Mood: {mascotResponses[mascot]?.mood || "Neutral"}
-              </div>
-              <div className="summary-response-box">
-                {mascotResponses[mascot]?.response || `No response yet from ${mascot}`}
-              </div>
-              <img
-                src={getMascotImage(mascot, mascotResponses[mascot]?.mood)}
-                alt={mascot}
-                className="summary-mascot-image"
-              />
-            </div>
-          ))}
+          {[
+  { 
+    id: 'lion', 
+    name: 'Leo the Lion',
+    adjectives: 'Visionary • Strategic • Hustler'
+  },
+  { 
+    id: 'owl', 
+    name: 'Professor Hoot',
+    adjectives: 'Technical • Analytical • Mild Stutter'
+  },
+  { 
+    id: 'tusk', 
+    name: 'Mr. Tusk',
+    adjectives: 'Financial • Pragmatic • Meticulous'
+  }
+].map((mascot) => (
+  <div key={mascot.id} className="summary-mascot-column">
+    <div className={`summary-mascot-name ${mascot.id}`}>
+      {mascot.name}
+      <div className="summary-mascot-adjectives">
+        {mascot.adjectives}
+      </div>
+    </div>
+    <div className="summary-mood-box">
+      Mood: {mascotResponses[mascot.id]?.mood || "Neutral"}
+    </div>
+    <div className="summary-response-box">
+      {mascotResponses[mascot.id]?.response || `No response yet from ${mascot.name}`}
+    </div>
+    <img
+      src={getMascotImage(mascot.id, mascotResponses[mascot.id]?.mood)}
+      alt={mascot.name}
+      className="summary-mascot-image"
+    />
+  </div>
+))}
         </div>
         <div className="summary-text-section">
           <h2 className="summary-subtitle">Summary of Pitch</h2>
           <p className="summary-content">{summary}</p>
-          <h3>Business Pitch:</h3>
-          <p>{pitch}</p>
+          <h3 className="summary-content-h3">Business Pitch:</h3>
+          <p className="summary-content-p">{pitch}</p>
         </div>
       </div>
       {error && (
